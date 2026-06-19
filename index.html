@@ -9,6 +9,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     
     <style>
+        /* ... (giữ nguyên CSS) ... */
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
         * {
             font-family: 'Inter', sans-serif;
@@ -1328,10 +1329,13 @@
             }).join('');
         }
 
+        // =============================================
+        // HÀM MỞ LINK (THÊM VÀO ĐỂ LIÊN KẾT HOẠT ĐỘNG)
+        // =============================================
         function openSubjectLink(event, link) {
-            event.stopPropagation();
+            event.stopPropagation(); // Ngăn sự kiện lan truyền
             if (link && link.trim() !== '') {
-                window.open(link, '_blank');
+                window.open(link, '_blank'); // Mở link trong tab mới
             }
         }
 
