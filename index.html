@@ -2,8 +2,16 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
     <title>StudySmart - Quản lý học tập</title>
+    <!-- PWA & Mobile Meta Tags -->
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#2563eb" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <link rel="apple-touch-icon" href="assets/icon-192.png" />
+    <link rel="icon" type="image/svg+xml" href="assets/icon.svg" />
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
@@ -209,21 +217,82 @@
         .floating-clock-btn.running i { animation: spin 4s linear infinite; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        /* Màu sắc pastel dịu mắt */
-        .cell-blue { background-color: #e0f2fe; color: #0369a1; }
-        .cell-purple { background-color: #f3e8ff; color: #6b21a8; }
-        .cell-orange { background-color: #fef3c7; color: #b45309; }
-        .cell-pink { background-color: #fce7f3; color: #be185d; }
-        .cell-green { background-color: #dcfce7; color: #15803d; }
-        .cell-cyan { background-color: #ecfeff; color: #0e7490; }
-        .cell-empty { background-color: #f8fafc; color: #cbd5e1; border: 1px dashed #cbd5e1; transition: var(--transition); }
-        body.dark .cell-empty { background-color: #0f172a; border-color: #475569; color: #475569; }
+        /* Màu sắc thời khóa biểu (Chuẩn sáng & tối, chữ sắc nét tuyệt đối) */
+        .cell-blue { background-color: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; }
+        .cell-purple { background-color: #f3e8ff; color: #6b21a8; border: 1px solid #e9d5ff; }
+        .cell-orange { background-color: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
+        .cell-pink { background-color: #fce7f3; color: #9d174d; border: 1px solid #fbcfe8; }
+        .cell-green { background-color: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+        .cell-cyan { background-color: #cffafe; color: #155e75; border: 1px solid #a5f3fc; }
+        .cell-empty { background-color: #f8fafc; color: #94a3b8; border: 1px dashed #cbd5e1; transition: var(--transition); }
+
+        body.dark .cell-blue { background-color: #1e3a8a !important; color: #dbeafe !important; border-color: #2563eb !important; }
+        body.dark .cell-purple { background-color: #581c87 !important; color: #f3e8ff !important; border-color: #7c3aed !important; }
+        body.dark .cell-orange { background-color: #78350f !important; color: #fef3c7 !important; border-color: #d97706 !important; }
+        body.dark .cell-pink { background-color: #831843 !important; color: #fce7f3 !important; border-color: #db2777 !important; }
+        body.dark .cell-green { background-color: #14532d !important; color: #dcfce7 !important; border-color: #16a34a !important; }
+        body.dark .cell-cyan { background-color: #164e63 !important; color: #cffafe !important; border-color: #0891b2 !important; }
+        body.dark .cell-empty { background-color: #0f172a !important; border-color: #334155 !important; color: #64748b !important; }
+        body.dark .slot-time-box { background-color: #1e293b !important; border-color: #334155 !important; color: #60a5fa !important; }
+
+        /* Mobile Bottom Navigation Bar */
+        .mobile-bottom-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 62px;
+            background: #ffffff;
+            border-top: 1px solid #e2e8f0;
+            z-index: 3500;
+            justify-content: space-around;
+            align-items: center;
+            padding: 0 4px calc(env(safe-area-inset-bottom, 0px));
+            box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.04);
+        }
+        body.dark .mobile-bottom-nav {
+            background: #1e293b;
+            border-top-color: #334155;
+        }
+        .mobile-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            flex: 1;
+            height: 100%;
+            color: #64748b;
+            font-size: 10px;
+            font-weight: 600;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            transition: var(--transition);
+            padding: 4px 0;
+            text-decoration: none;
+        }
+        body.dark .mobile-nav-item { color: #94a3b8; }
+        .mobile-nav-item i { font-size: 17px; }
+        .mobile-nav-item.active {
+            color: #2563eb;
+            font-weight: 700;
+        }
+        body.dark .mobile-nav-item.active {
+            color: #60a5fa;
+        }
 
         @media(max-width: 1024px) {
             .sidebar { transform: translateX(-100%); width: 280px; }
             .sidebar.open { transform: translateX(0); }
             .main-content { margin-left: 0; padding: 16px; }
             .floating-clock-btn { bottom: 16px; right: 16px; min-width: 48px; height: 48px; padding: 0 14px; }
+        }
+        @media(max-width: 768px) {
+            .mobile-bottom-nav { display: flex; }
+            .main-content { padding-bottom: 84px !important; }
+            .floating-clock-btn { bottom: 74px !important; right: 16px !important; }
         }
     </style>
 </head>
@@ -245,6 +314,34 @@
         <i class="fas fa-hourglass-half text-xl"></i>
         <span id="floatingClockBadge" class="text-xs font-mono font-extrabold hidden">25:00</span>
     </div>
+
+    <!-- Mobile Bottom Navigation Bar (App Bar) -->
+    <nav class="mobile-bottom-nav" id="mobileBottomNav">
+        <button type="button" class="mobile-nav-item active" data-page="dashboard" onclick="navigateTo('dashboard')">
+            <i class="fas fa-th-large"></i>
+            <span>Tổng quan</span>
+        </button>
+        <button type="button" class="mobile-nav-item" data-page="subjects" onclick="navigateTo('subjects')">
+            <i class="fas fa-book-open"></i>
+            <span>Môn học</span>
+        </button>
+        <button type="button" class="mobile-nav-item" data-page="tasks" onclick="navigateTo('tasks')">
+            <i class="fas fa-check-double"></i>
+            <span>Nhiệm vụ</span>
+        </button>
+        <button type="button" class="mobile-nav-item" data-page="vault" onclick="navigateTo('vault')">
+            <i class="fas fa-box-archive"></i>
+            <span>Kho lưu</span>
+        </button>
+        <button type="button" class="mobile-nav-item" data-page="schedule-page" onclick="navigateTo('schedule-page')">
+            <i class="fas fa-calendar-alt"></i>
+            <span>Lịch học</span>
+        </button>
+        <button type="button" class="mobile-nav-item" data-page="leaderboard-page" onclick="navigateTo('leaderboard-page')">
+            <i class="fas fa-trophy"></i>
+            <span>Xếp hạng</span>
+        </button>
+    </nav>
 
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-brand">
@@ -748,10 +845,11 @@
         </div>
     </div>
 
-    <!-- Script Tích hợp Firebase Google Auth -->
+    <!-- Script Tích hợp Firebase Google Auth & Firestore Cloud Sync -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCP-Js_fCdTf_-brucqLh2n9VfYPmAU8TU",
@@ -765,21 +863,54 @@
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
+        const db = getFirestore(app);
         const provider = new GoogleAuthProvider();
 
+        // Đồng bộ dữ liệu lên Cloud Firestore khi có thay đổi
+        window.firebaseSaveUserData = async function(userKey, payload) {
+            try {
+                if (!userKey || userKey === 'guest_preview') return;
+                const userRef = doc(db, 'users_data', userKey);
+                await setDoc(userRef, {
+                    ...payload,
+                    updatedAt: Date.now()
+                }, { merge: true });
+                console.log('☁️ Đã đồng bộ lên đám mây Firestore thành công cho user:', userKey);
+            } catch (err) {
+                console.warn('Lưu đám mây Firestore (sử dụng offline local trước):', err.message);
+            }
+        };
+
+        // Tải dữ liệu từ Cloud Firestore khi đăng nhập trên thiết bị mới
+        window.firebaseLoadUserData = async function(userKey) {
+            try {
+                if (!userKey || userKey === 'guest_preview') return null;
+                const userRef = doc(db, 'users_data', userKey);
+                const snap = await getDoc(userRef);
+                if (snap.exists()) {
+                    console.log('☁️ Đã lấy dữ liệu từ đám mây Firestore cho user:', userKey);
+                    return snap.data();
+                }
+            } catch (err) {
+                console.warn('Tải đám mây Firestore (sử dụng cache local):', err.message);
+            }
+            return null;
+        };
+
         // Đồng bộ phiên tự động khi tải lại trang nếu đăng nhập bằng Firebase
-        onAuthStateChanged(auth, (firebaseUser) => {
+        onAuthStateChanged(auth, async (firebaseUser) => {
             if (firebaseUser && localStorage.getItem('studySmart_authType') === 'firebase') {
                 const email = firebaseUser.email || '';
                 const username = email ? email.split('@')[0] : ('fb_' + firebaseUser.uid.slice(0, 8));
-                window.activateAuthenticatedUser({
+                const userProfile = {
                     username: username,
                     name: firebaseUser.displayName || 'Học viên StudySmart',
                     email: email,
                     avatar: firebaseUser.photoURL || null,
                     authProvider: 'google',
                     uid: firebaseUser.uid
-                }, false);
+                };
+                window.activateAuthenticatedUser(userProfile, false);
             }
         });
 
@@ -791,14 +922,15 @@
                 const username = email ? email.split('@')[0] : ('fb_' + user.uid.slice(0, 8));
 
                 localStorage.setItem('studySmart_authType', 'firebase');
-                window.activateAuthenticatedUser({
+                const userProfile = {
                     username: username,
                     name: user.displayName || 'Học viên StudySmart',
                     email: email,
                     avatar: user.photoURL || null,
                     authProvider: 'google',
                     uid: user.uid
-                }, true);
+                };
+                window.activateAuthenticatedUser(userProfile, true);
             } catch (error) {
                 console.error("Lỗi Google Auth:", error.code || error.message);
                 let msg = 'Đăng nhập Google thất bại.';
@@ -1005,7 +1137,7 @@
             try {
                 setSaveStatus('saving', 'Đang lưu dữ liệu...');
                 const userKey = getCurrentUserKey();
-                localStorage.setItem(getStateStorageKey(userKey), JSON.stringify({
+                const stateData = {
                     subjects: AppState.subjects,
                     tasks: AppState.tasks,
                     timeSlots: AppState.timeSlots,
@@ -1013,8 +1145,15 @@
                     user: AppState.user,
                     timerSeconds: AppState.timer.seconds,
                     visitCounts: AppState.visitCounts
-                }));
+                };
+                localStorage.setItem(getStateStorageKey(userKey), JSON.stringify(stateData));
                 saveUserToRegistry(AppState.user);
+
+                // Đồng bộ lên Cloud Firestore nếu có mạng
+                if (typeof window.firebaseSaveUserData === 'function') {
+                    window.firebaseSaveUserData(userKey, { stateData: stateData });
+                }
+
                 setSaveStatus('ok', `Đã lưu an toàn (${AppState.user.name})`);
                 return true;
             } catch (e) {
@@ -1184,8 +1323,39 @@
             updateUserSidebarUI();
             renderAll();
 
+            // Kéo dữ liệu mới nhất từ đám mây Firestore nếu đăng nhập trên thiết bị mới
+            const activeKey = getCurrentUserKey();
+            if (typeof window.firebaseLoadUserData === 'function') {
+                window.firebaseLoadUserData(activeKey).then(cloudData => {
+                    if (cloudData) {
+                        let hasUpdate = false;
+                        if (cloudData.stateData) {
+                            const p = cloudData.stateData;
+                            if (Array.isArray(p.subjects)) AppState.subjects = p.subjects;
+                            if (Array.isArray(p.tasks)) AppState.tasks = p.tasks;
+                            if (Array.isArray(p.timeSlots)) AppState.timeSlots = p.timeSlots;
+                            if (p.scheduleMatrix && typeof p.scheduleMatrix === 'object') AppState.scheduleMatrix = p.scheduleMatrix;
+                            if (p.user) AppState.user = { ...AppState.user, ...p.user };
+                            localStorage.setItem(getStateStorageKey(activeKey), JSON.stringify(p));
+                            hasUpdate = true;
+                        }
+                        if (Array.isArray(cloudData.vaultItems) && Array.isArray(cloudData.vaultFolders)) {
+                            vaultItems = cloudData.vaultItems;
+                            vaultFolders = cloudData.vaultFolders;
+                            localStorage.setItem(getVaultItemsStorageKey(activeKey), JSON.stringify(vaultItems));
+                            localStorage.setItem(getVaultFoldersStorageKey(activeKey), JSON.stringify(vaultFolders));
+                            hasUpdate = true;
+                        }
+                        if (hasUpdate) {
+                            renderAll();
+                            setSaveStatus('ok', `☁️ Đã đồng bộ từ đám mây (${AppState.user.name})`);
+                        }
+                    }
+                }).catch(() => {});
+            }
+
             if (showWelcomeToast) {
-                showToast(`🎉 Xin chào, ${AppState.user.name}! Đã tải dữ liệu tài khoản.`, 'success');
+                showToast(`🎉 Xin chào, ${AppState.user.name}! Đã kết nối và đồng bộ.`, 'success');
             }
         };
 
@@ -1514,6 +1684,11 @@
                 if (item.getAttribute('data-page') === pageId) item.classList.add('active');
             });
 
+            document.querySelectorAll('.mobile-bottom-nav .mobile-nav-item').forEach(item => {
+                item.classList.remove('active');
+                if (item.getAttribute('data-page') === pageId) item.classList.add('active');
+            });
+
             const titles = { 
                 'dashboard': 'StudySmart Dashboard', 
                 'subjects': 'Quản lý Môn học', 
@@ -1672,7 +1847,7 @@
             AppState.timeSlots.forEach(slot => {
                 html += `
                     <div class="grid grid-cols-8 gap-3 items-center text-center">
-                        <div class="text-blue-600 dark:text-blue-400 font-bold text-xs py-3 font-mono flex flex-col justify-center items-start pl-2 rounded-xl relative group bg-gray-50 dark:bg-slate-800/50 h-full border border-gray-100 dark:border-gray-800">
+                        <div class="slot-time-box text-blue-600 dark:text-blue-400 font-bold text-xs py-3 font-mono flex flex-col justify-center items-start pl-2.5 rounded-xl relative group bg-gray-50 dark:bg-slate-800 h-full border border-gray-200 dark:border-gray-700 shadow-sm">
                             <span class="text-[13px] tracking-tight">${escapeVaultHtml(slot.range)}</span>
                             <button onclick="deleteTimeSlotRow('${escapeVaultHtml(slot.id)}')" class="absolute right-1 text-xs text-red-400 opacity-0 group-hover:opacity-100 transition-opacity" title="Xóa mốc giờ">
                                 <i class="fas fa-trash"></i>
@@ -2133,6 +2308,15 @@
                 const userKey = getCurrentUserKey();
                 localStorage.setItem(getVaultItemsStorageKey(userKey), JSON.stringify(vaultItems));
                 localStorage.setItem(getVaultFoldersStorageKey(userKey), JSON.stringify(vaultFolders));
+
+                // Đồng bộ Kho kiến thức lên Cloud Firestore
+                if (typeof window.firebaseSaveUserData === 'function') {
+                    window.firebaseSaveUserData(userKey, {
+                        vaultItems: vaultItems,
+                        vaultFolders: vaultFolders
+                    });
+                }
+
                 setSaveStatus('ok', `Đã lưu Kho kiến thức (${vaultItems.length} mục)`);
                 return true;
             } catch (e) {
@@ -2703,13 +2887,13 @@
                     <!-- Trường Nội dung chính / URL / Code -->
                     <div class="form-group">
                         <label id="vaultContentLabel">${
-                            activeType === 'link' ? 'Địa chỉ URL liên kết (https://...) *' :
+                            activeType === 'link' ? 'Địa chỉ liên kết URL (https://...) *' :
                             activeType === 'code' ? 'Mã nguồn (Code) *' :
-                            activeType === 'image' ? 'URL hình ảnh trực tiếp (hoặc tải tệp bên dưới)' :
-                            activeType === 'audio' ? 'URL âm thanh trực tiếp (hoặc tải tệp bên dưới)' :
-                            'Nội dung văn bản nhiều dòng *'
+                            activeType === 'image' ? 'Ghi chú ảnh hoặc URL hình ảnh trực tiếp' :
+                            activeType === 'audio' ? 'Ghi chú âm thanh hoặc URL phát trực tiếp' :
+                            'Nội dung ghi chú *'
                         }</label>
-                        <textarea id="vaultItemContent" rows="${activeType === 'link' || activeType === 'image' || activeType === 'audio' ? '3' : '7'}" class="${activeType === 'code' ? 'vault-code' : ''}" placeholder="Nhập nội dung tại đây...">${escapeVaultHtml(old?.content || '')}</textarea>
+                        <textarea id="vaultItemContent" rows="${activeType === 'link' || activeType === 'image' || activeType === 'audio' ? '3' : '7'}" class="${activeType === 'code' ? 'vault-code' : ''}" placeholder="${activeType === 'image' || activeType === 'audio' ? 'Tùy chọn: Nhập liên kết hoặc ghi chú mô tả...' : 'Nhập nội dung tại đây...'}">${escapeVaultHtml(old?.content || '')}</textarea>
                     </div>
 
                     <!-- Tải tệp cho Hình ảnh & Âm thanh -->
@@ -2818,16 +3002,23 @@
 
             if (!title) return showVaultFormError('Vui lòng nhập tiêu đề nội dung.');
             if (type === 'link') {
-                if (!content.trim() || !/^https?:\/\//i.test(content.trim())) {
+                if (!content.trim()) {
+                    return showVaultFormError('Vui lòng nhập địa chỉ liên kết URL.');
+                }
+                if (!/^https?:\/\//i.test(content.trim())) {
                     return showVaultFormError('Liên kết URL phải bắt đầu bằng http:// hoặc https://');
                 }
-            } else if (type === 'note' || type === 'code') {
+            } else if (type === 'note') {
+                if (!content.trim() && !description.trim()) {
+                    return showVaultFormError('Vui lòng nhập nội dung hoặc ghi chú tóm tắt.');
+                }
+            } else if (type === 'code') {
                 if (!content.trim()) {
-                    return showVaultFormError('Vui lòng nhập nội dung trước khi lưu.');
+                    return showVaultFormError('Vui lòng nhập đoạn mã nguồn code.');
                 }
             } else if (type === 'image' || type === 'audio') {
                 if (!fileData && !content.trim()) {
-                    return showVaultFormError('Vui lòng tải tệp lên hoặc nhập đường dẫn URL hợp lệ.');
+                    return showVaultFormError('Vui lòng chọn tệp từ máy hoặc nhập liên kết trực tiếp.');
                 }
             }
 
@@ -3673,6 +3864,11 @@
                 localStorage.setItem('studySmart_firstVisitSeen', 'true');
                 document.getElementById('authContainer').style.display = 'flex';
                 showLogin();
+            }
+
+            // 4. Đăng ký Service Worker cho ứng dụng PWA Mobile
+            if ('serviceWorker' in navigator && (window.location.protocol === 'https:' || window.location.hostname === 'localhost')) {
+                navigator.serviceWorker.register('/sw.js').catch(function() {});
             }
         });
     </script>
